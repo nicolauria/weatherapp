@@ -24,7 +24,7 @@ $(document).ready(function () {
     $.ajax({
       type: "GET",
       url:
-        "http://api.openweathermap.org/data/2.5/weather?q=" +
+        "https://api.openweathermap.org/data/2.5/weather?q=" +
         city +
         "&appid=039caae4e6460883b9440700adbdd04c&units=imperial",
       dataType: "json",
@@ -71,7 +71,7 @@ $(document).ready(function () {
       .text("Wind Speed: " + data.wind.speed + " MPH");
     var img = $("<img>").attr(
       "src",
-      "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png"
+      "https://openweathermap.org/img/w/" + data.weather[0].icon + ".png"
     );
 
     // merge and add to page
@@ -89,7 +89,7 @@ $(document).ready(function () {
     $.ajax({
       type: "GET",
       url:
-        "http://api.openweathermap.org/data/2.5/forecast?q=" +
+        "https://api.openweathermap.org/data/2.5/forecast?q=" +
         city +
         "&appid=039caae4e6460883b9440700adbdd04c&units=imperial",
       dataType: "json",
@@ -114,7 +114,7 @@ $(document).ready(function () {
 
             var img = $("<img>").attr(
               "src",
-              "http://openweathermap.org/img/w/" +
+              "https://openweathermap.org/img/w/" +
                 data.list[i].weather[0].icon +
                 ".png"
             );
