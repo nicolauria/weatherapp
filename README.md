@@ -18,21 +18,17 @@ The index.html file contains a sidebar with a list of recent searches and a main
 
 The application logic is contained in static_pages.js and served with the index.html file.
 
-All api responses are cached in localStorage for 30 minutes. The localStorage object is an array of objects. Each object has the address searched as a key and the api response as an additional nested object. See below:
+All api responses are cached in localStorage for 30 minutes. The localStorage object stores addresses as keys with the api response as the value. See below:
 
 ```
-[
-  {
-    "1234 Sample St": {
-      api response here...
-    }
+{
+  "1234 Sample St": {
+    api response here...
   },
-  {
-    "5678 Another St": {
-      api response here...
-    }
+  "5678 Another St": {
+    api response here...
   }
-]
+}
 ```
 
 Api cals are made to the [openweathermap api](https://openweathermap.org/).
