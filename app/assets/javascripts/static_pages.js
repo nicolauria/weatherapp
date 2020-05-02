@@ -1,6 +1,6 @@
 $(document).ready(function () {
   // get current history, if any
-  var history = JSON.parse(window.localStorage.getItem("weatherSearch")) || [];
+  var history = JSON.parse(window.localStorage.getItem("weatherSearch")) || {};
 
   $("#search-button").on("click", function () {
     var city = $("#city").val();
@@ -11,12 +11,15 @@ $(document).ready(function () {
 
   function searchWeather(address, city) {
     // check local storage for cached address
-    for (var i = 0; i < history.length; i++) {
-      if (Object.keys(history[i]).includes(address)) {
+    var keys = Object.keys(history);
+
+    for (var i = 0; i < keys.length; i++) {
+      var cachedAddress = keys[i];
+      if (cachedAddress === address) {
         // populateWeather creates our card for todays weather
-        populateWeather(history[i][address]);
+        populateWeather(history[cachedAddress]);
         // getForecast creates 5 additional cards for 5day forecast
-        getForecast(history[i][address].city);
+        getForecast(history[cachedAddress].city);
         return;
       }
     }
@@ -35,9 +38,7 @@ $(document).ready(function () {
         data.createdAt = new Date().getTime();
 
         // add new api response to localStorage array
-        var obj = {};
-        obj[address] = data;
-        history.push(obj);
+        history[address] = data;
         window.localStorage.setItem("weatherSearch", JSON.stringify(history));
 
         populateWeather(data);
@@ -154,25 +155,27 @@ $(document).ready(function () {
 
   // to run on page load
   (function () {
-    for (var i = 0; i < history.length; i++) {
-      var address = Object.keys(history[i])[0];
+    var keys = Object.keys(history);
 
-      var createdAt = history[i][address].createdAt;
+    for (var i = 0; i < keys.length; i++) {
+      var address = keys[i];
+
+      var createdAt = history[address].createdAt;
       var thirtyMin = 30 * 60 * 1000;
 
       // Removed cached searches after 30 minutes
       if (new Date().getTime() - createdAt > thirtyMin) {
-        history.splice(i, 1);
+        delete history[address];
         continue;
       }
 
       // add recent searches to sidebar
-      var city = history[i][address].city;
+      var city = history[address].city;
       makeRow(address, city);
 
       // populate dashboard with most recent weather search
-      if (i === history.length - 1) {
-        populateWeather(history[i][address]);
+      if (i === keys.length - 1) {
+        populateWeather(history[address]);
         getForecast(city);
       }
     }
