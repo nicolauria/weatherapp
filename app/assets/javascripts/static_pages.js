@@ -1,6 +1,6 @@
 $(document).ready(function () {
   // get current history, if any
-  var history = JSON.parse(window.localStorage.getItem("weatherSearch")) || {};
+  var history = JSON.parse(window.localStorage.getItem("weatherCache")) || {};
 
   $("#search-button").on("click", function () {
     var city = $("#city").val();
@@ -39,7 +39,7 @@ $(document).ready(function () {
 
         // add new api response to localStorage array
         history[address] = data;
-        window.localStorage.setItem("weatherSearch", JSON.stringify(history));
+        window.localStorage.setItem("weatherCache", JSON.stringify(history));
 
         populateWeather(data);
         getForecast(city);
@@ -180,6 +180,6 @@ $(document).ready(function () {
       }
     }
 
-    window.localStorage.setItem("weatherSearch", JSON.stringify(history));
+    window.localStorage.setItem("weatherCache", JSON.stringify(history));
   })();
 });
